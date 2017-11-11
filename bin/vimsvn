@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Get folder where script is installed.
+SCR_PATH="`dirname \"$0\"`"
+export VIM_SERVERNAME="SVN-$RANDOM"
+
+# Start up a vim backgrounded...
+vim -f --servername "$VIM_SERVERNAME" - &
+
+#So we get can it's PID to wait on later
+vim_pid=$!
+
+# Wait for the server to start up enough
+sleep 0.5
+
+# Run python script. This will create svnlogs file.
+python $SCR_PATH/../src/readsvnlog.py
+
+# Open the file generated with above script in readonly mode. Also, lets set some options.
+vim --servername "$VIM_SERVERNAME" --remote-send ":view svnlogs<Return>"
+vim --servername "$VIM_SERVERNAME" --remote-send ":setlocal shiftwidth=4<Return>"
+vim --servername "$VIM_SERVERNAME" --remote-send ":setlocal foldmethod=indent<Return>"
+vim --servername "$VIM_SERVERNAME" --remote-send ":so $SCR_PATH/../src/vimsvnscript.vim<Return>"
+
+# Lets wait until user exit.
+wait $vim_pid
+
+# Lets cleanup.
+rm svnlogs
