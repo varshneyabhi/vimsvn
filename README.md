@@ -11,7 +11,7 @@ For accessing repo history, current option is 'svn log' command at terminal base
 Put this script at any location (preferably ~/.local) and append path till 'bin' in PATH variable.
 To work this script, vim should be compiled with cleantserver and python3 option.
 
-Please note that this script is tested on lubuntu on Virtualbox where target machine was SSHed with -X flag.
+Please note that this script is tested on lubuntu on Virtualbox where target machine was SSHed with -X flag and script was installed at target machine.
 
 ## Uses
 
