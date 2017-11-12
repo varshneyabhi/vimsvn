@@ -22,14 +22,16 @@ vimsvn "./test1.c"
 
 It will start displaying as follow:
 
-Not Completed.....
+![alt text](https://photos.app.goo.gl/hiSs5kZFlOwYQ8bQ2)
 
-
+Now, expand/fold folded lines using 'sc'. Move cursor to the file, for which you want to see the diff with previous version. press 'sd'. This will open diff in new tab. Use ':tabclose' or 'sa' to close tab.
 
 ## Vim Bindings
 
 **sc** -> Behaves like 'za'
+
 **sd** -> Shows diff of file with previous version.
+
 **sa** -> behaves like ':tabclose'
 
 ## Improvements
