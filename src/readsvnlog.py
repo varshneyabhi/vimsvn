@@ -1,4 +1,5 @@
 from subprocess import check_output
+import sys
 
 svn_root = "InValid"
 f = None
@@ -8,8 +9,8 @@ f = None
 """
 
 
-def get_logs():
-    x = check_output(['svn', 'log', '-v', '-r', 'HEAD:0'])
+def get_logs(ar):
+    x = check_output(['svn', 'log', '-v', ar, '-r', 'HEAD:0'])
     return x
 
 
@@ -20,10 +21,10 @@ def get_logs():
 """
 
 
-def get_svn_root():
+def get_svn_root(ar):
     global svn_root
     if svn_root == "InValid":
-        path = check_output(['svn', 'info'])
+        path = check_output(['svn', 'info', ar])
         path = list(
                 filter(
                     lambda x: "Repository Root: " in x, path.split("\n")))
@@ -35,8 +36,8 @@ def get_svn_root():
 """
 
 
-def get_path_with_url(path):
-    c = get_svn_root()
+def get_path_with_url(path, ar):
+    c = get_svn_root(ar)
     return c + path
 
 
@@ -69,8 +70,11 @@ def write_to_file(x):
 
 
 def main():
+    ar = ""
+    if len(sys.argv) > 1:
+        ar = sys.argv[1]
     # get all logs
-    lines = get_logs().split("\n")
+    lines = get_logs(ar).split("\n")
 
     start = False
     line = 0
@@ -104,7 +108,7 @@ def main():
                         tstr += "    Comment"
                     else:
                         tstr += ("        "
-                                 + get_path_with_url(x.split(" ")[-1])
+                                 + get_path_with_url(x.split(" ")[-1], ar)
                                  + rev
                                  + "\n")
             elif line == 2:
